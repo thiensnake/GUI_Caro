@@ -1,0 +1,37 @@
+Đoạn code trên là một ứng dụng đơn giản của trò chơi Caro (tic-tac-toe) sử dụng thư viện Tkinter của Python để tạo giao diện đồ họa. 
+
+1. **Hàm `next_turn`**:
+   - Xử lý lượt đi của người chơi khi nhấn vào một ô trên bảng.
+   - Kiểm tra xem ô đó đã được chọn chưa (`buttons[row][column]['text'] == ""`) và xem có người chiến thắng chưa (`check_winner() is False`).
+   - Cập nhật nội dung của ô theo lượt của người chơi hiện tại và chuyển đổi lượt chơi cho người chơi tiếp theo.
+   - Kiểm tra xem có người chiến thắng sau mỗi nước đi và thực hiện các hành động tương ứng.
+
+2. **Hàm `check_winner`**:
+   - Kiểm tra xem có người chơi nào chiến thắng hay không.
+   - Kiểm tra theo hàng, cột, đường chéo để xác định nếu có 3 ô liên tiếp giống nhau.
+   - Nếu có người chiến thắng, tô màu ô thắng và trả về `True`.
+   - Nếu hòa, trả về "Tie".
+   - Ngược lại, trả về `False`.
+
+3. **Hàm `highlight_winner_buttons`**:
+   - Tô màu các ô của dòng, cột, hoặc đường chéo khi có người chơi chiến thắng.
+
+4. **Hàm `empty_spaces`**:
+   - Kiểm tra xem còn ô trống không trên bảng hay không.
+   - Trả về `True` nếu còn, ngược lại trả về `False`.
+
+5. **Hàm `new_game`**:
+   - Bắt đầu một trò chơi mới.
+   - Chọn người chơi ngẫu nhiên để đi trước.
+   - Cập nhật nhãn hiển thị lượt chơi.
+
+6. **Hàm `save_winner_to_database`**:
+   - Lưu thông tin người chơi chiến thắng vào cơ sở dữ liệu MySQL.
+   - Sử dụng thời điểm hiện tại và tên người chơi để lưu vào bảng `ketqua`.
+
+7. **Hàm `create_database_connection`**:
+   - Tạo kết nối đến cơ sở dữ liệu MySQL với thông tin đăng nhập và tên cơ sở dữ liệu đã cung cấp.
+
+8. **Phần tạo giao diện Tkinter**:
+   - Khởi tạo cửa sổ, các biến và các nút cần thiết.
+   - Sử dụng một Frame để chứa bảng chơi và đặt các nút vào bảng.
