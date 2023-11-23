@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import colorchooser
 import random
 from tkinter import messagebox
 import mysql.connector
@@ -45,6 +46,22 @@ def switch_player():
     computer_player = not computer_player
     if computer_player:
         computer_move()
+
+def choose_color(player_symbol):
+    color = colorchooser.askcolor()[1]
+    if color:
+        if player_symbol == "X":
+            x_color.set(color)
+            for row in range(3):
+                for column in range(3):
+                    if buttons[row][column]['text'] == "X":
+                        buttons[row][column].config(fg=color)
+        elif player_symbol == "O":
+            o_color.set(color)
+            for row in range(3):
+                for column in range(3):
+                    if buttons[row][column]['text'] == "O":
+                        buttons[row][column].config(fg=color)
 
 def next_turn(row, column):
     global player, computer_player
@@ -112,7 +129,7 @@ def new_game():
     global player, computer_player
     player = random.choice(players)
     label.config(text=("Lượt " + player))
-    computer_player = True  # Đặt computer_player = True để máy đánh trước khi bắt đầu lượt chơi
+    computer_player = False
 
     for row in range(3):
         for column in range(3):
@@ -121,13 +138,23 @@ def new_game():
     if computer_player:
         computer_move()
 
-# Thiết lập giao diện
 window = Tk()
 window.title("Caro")
 
 players = ["X", "O"]
 player = random.choice(players)
-computer_player = False  # Thêm biến computer_player để xác định lượt của máy
+computer_player = False
+
+x_color = StringVar()
+o_color = StringVar()
+
+menu_bar = Menu(window)
+window.config(menu=menu_bar)
+
+color_menu = Menu(menu_bar, tearoff=0)
+menu_bar.add_cascade(label="Màu sắc", menu=color_menu)
+color_menu.add_command(label="Chọn màu X", command=lambda: choose_color("X"))
+color_menu.add_command(label="Chọn màu O", command=lambda: choose_color("O"))
 
 buttons = [[0, 0, 0],
            [0, 0, 0],
@@ -145,7 +172,7 @@ frame.pack()
 for row in range(3):
     for column in range(3):
         buttons[row][column] = Button(frame, text="", font=('consolas', 40), width=5, height=2,
-            command=lambda row=row, column=column: next_turn(row, column))
+                                      command=lambda row=row, column=column: next_turn(row, column))
         buttons[row][column].grid(row=row, column=column)
 
-window.mainloop()                         
+window.mainloop()
