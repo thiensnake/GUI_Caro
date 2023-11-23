@@ -5,8 +5,11 @@ import mysql.connector
 from datetime import datetime
 from tkinter import colorchooser
 
+current_mode = "Human"
+computer_player = ""
+
 def next_turn(row, column):
-    global player
+    global player, current_mode, computer_player
 
     if buttons[row][column]['text'] == "" and check_winner() is False:
         buttons[row][column]['text'] = player
@@ -23,6 +26,9 @@ def next_turn(row, column):
 
         elif check_winner() == "Tie":
             label.config(text="Hòa!")
+
+        if current_mode == "Computer" and player == computer_player:
+            computer_turn()
 
 def check_winner():
     for row in range(3):
@@ -142,6 +148,25 @@ def show_history_details(entry):
 def show_about():
     messagebox.showinfo("About", "Caro Game\nVersion 1.0\n\n© 2023 by ThienSnake, Rin\n \nLuật chơi: Hai người chơi cầm 2 ký tự khác nhau X và O đánh trên bàn với ô vuông nhỏ gần nhau. Người chiến thắng là người sẽ tạo được hàng 3 đầu tiên.")
 
+def computer_turn():
+    if check_winner() is False and empty_spaces():
+        empty_cells = [(r, c) for r in range(3) for c in range(3) if buttons[r][c]['text'] == ""]
+        if empty_cells:
+            row, column = random.choice(empty_cells)
+            next_turn(row, column)
+
+def switch_to_human_mode():
+    global current_mode, computer_player
+    current_mode = "Human"
+    computer_player = ""
+
+def switch_to_computer_mode():
+    global current_mode, computer_player
+    current_mode = "Computer"
+    computer_player = "O" if player == "X" else "X"
+    if player == computer_player:
+        computer_turn()
+
 window = Tk()
 window.title("Caro")
 
@@ -166,6 +191,12 @@ colors_menu = Menu(menu_bar, tearoff=0)
 menu_bar.add_cascade(label="Colors", menu=colors_menu)
 colors_menu.add_command(label="Choose X Color", command=choose_x_color)
 colors_menu.add_command(label="Choose O Color", command=choose_o_color)
+
+# Mode menu
+mode_menu = Menu(menu_bar, tearoff=0)
+menu_bar.add_cascade(label="Mode", menu=mode_menu)
+mode_menu.add_command(label="Chơi với người", command=switch_to_human_mode)
+mode_menu.add_command(label="Chơi với máy", command=switch_to_computer_mode)
 
 # History menu
 history_menu = Menu(menu_bar, tearoff=0)
