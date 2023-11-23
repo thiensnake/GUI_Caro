@@ -80,4 +80,4 @@
 
 - Tạo menu cho việc chọn màu, chế độ chơi, lịch sử và thông tin về ứng dụng.
 
-Mã nguồn này tương tối rõ ràng và được chia thành các hàm chức năng cụ thể để dễ quản lý và hiểu.
+Mã nguồn này tương tối rõ ràng và được chia thành các hàm chức năng cụ thể để dễ quản lý và hiểu .

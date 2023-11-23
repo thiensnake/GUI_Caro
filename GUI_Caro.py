@@ -20,7 +20,7 @@ def next_turn(row, column):
             label.config(text=("Lượt " + player))
 
         elif check_winner() is True:
-            label.config(text=(player + " Thắng "))
+            label.config(text=(player + " Thắng! "))
             save_winner_to_database(player)
             update_history_menu()
 
@@ -99,7 +99,7 @@ def save_winner_to_database(winner):
         ''', (winner, current_datetime))
 
         conn.commit()
-        messagebox.showinfo("Thông báo", "Người chơi Thắng cuộc đã được lưu vào cơ sở dữ liệu.")
+        messagebox.showinfo("Thông báo", "Đã lưu lịch sử đấu vào cơ sở dữ liệu")
     except Exception as e:
         messagebox.showerror("Lỗi", f"Lỗi khi lưu vào cơ sở dữ liệu: {str(e)}")
     finally:
@@ -168,7 +168,7 @@ def switch_to_computer_mode():
         computer_turn()
 
 window = Tk()
-window.title("Caro")
+window.title("Caro Game")
 
 players = ["X", "O"]
 player = random.choice(players)
