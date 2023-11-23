@@ -1,37 +1,79 @@
-Đoạn code trên là một ứng dụng đơn giản của trò chơi Caro (tic-tac-toe) sử dụng thư viện Tkinter của Python để tạo giao diện đồ họa. 
+Đoạn mã trên là một ứng dụng Caro (hay còn gọi là Tic Tac Toe) sử dụng thư viện Tkinter trong Python. Dưới đây là mô tả chi tiết từng phần của mã nguồn:
 
-1. **Hàm `next_turn`**:
-   - Xử lý lượt đi của người chơi khi nhấn vào một ô trên bảng.
-   - Kiểm tra xem ô đó đã được chọn chưa (`buttons[row][column]['text'] == ""`) và xem có người chiến thắng chưa (`check_winner() is False`).
-   - Cập nhật nội dung của ô theo lượt của người chơi hiện tại và chuyển đổi lượt chơi cho người chơi tiếp theo.
-   - Kiểm tra xem có người chiến thắng sau mỗi nước đi và thực hiện các hành động tương ứng.
+1. **Import thư viện và modules:**
+    ```python
+    from tkinter import *
+    import random
+    from tkinter import messagebox
+    import mysql.connector
+    from datetime import datetime
+    from tkinter import colorchooser
+    ```
 
-2. **Hàm `check_winner`**:
-   - Kiểm tra xem có người chơi nào chiến thắng hay không.
-   - Kiểm tra theo hàng, cột, đường chéo để xác định nếu có 3 ô liên tiếp giống nhau.
-   - Nếu có người chiến thắng, tô màu ô thắng và trả về `True`.
-   - Nếu hòa, trả về "Tie".
-   - Ngược lại, trả về `False`.
+    - `Tkinter`: Thư viện đồ họa chính cho giao diện người dùng trong Python.
+    - `random`: Để chọn ngẫu nhiên người chơi đầu tiên.
+    - `messagebox`: Để hiển thị các hộp thoại thông báo.
+    - `mysql.connector`: Thư viện để kết nối với cơ sở dữ liệu MySQL.
+    - `datetime`: Để lấy thời gian hiện tại.
+    - `colorchooser`: Cho phép người chơi chọn màu cho ký tự X và O.
 
-3. **Hàm `highlight_winner_buttons`**:
-   - Tô màu các ô của dòng, cột, hoặc đường chéo khi có người chơi chiến thắng.
+2. **Khởi tạo biến và hàm:**
+    ```python
+    player = random.choice(players)
+    player_colors = {"X": "red", "O": "blue"}
+    buttons = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    ```
 
-4. **Hàm `empty_spaces`**:
-   - Kiểm tra xem còn ô trống không trên bảng hay không.
-   - Trả về `True` nếu còn, ngược lại trả về `False`.
+    - `player`: Biến xác định người chơi hiện tại.
+    - `player_colors`: Một từ điển ánh xạ màu cho mỗi ký tự (X và O).
+    - `buttons`: Một mảng hai chiều để lưu trữ các nút trên bàn cờ.
 
-5. **Hàm `new_game`**:
-   - Bắt đầu một trò chơi mới.
-   - Chọn người chơi ngẫu nhiên để đi trước.
-   - Cập nhật nhãn hiển thị lượt chơi.
+3. **Hàm `next_turn(row, column)`:**
+    - Xử lý lượt đi tiếp của người chơi và cập nhật trạng thái trò chơi.
+    - Kiểm tra xem có người chiến thắng hay không và hiển thị thông báo tương ứng.
 
-6. **Hàm `save_winner_to_database`**:
-   - Lưu thông tin người chơi chiến thắng vào cơ sở dữ liệu MySQL.
-   - Sử dụng thời điểm hiện tại và tên người chơi để lưu vào bảng `ketqua`.
+4. **Hàm `check_winner()`:**
+    - Kiểm tra xem có người chiến thắng hay không.
+    - Nếu có, đánh dấu các ô trên bàn cờ làm nổi bật và trả về True.
+    - Nếu hòa, trả về "Tie".
 
-7. **Hàm `create_database_connection`**:
-   - Tạo kết nối đến cơ sở dữ liệu MySQL với thông tin đăng nhập và tên cơ sở dữ liệu đã cung cấp.
+5. **Hàm `highlight_winner_buttons(row1, col1, row2, col2, row3, col3)`:**
+    - Làm nổi bật các ô trên bàn cờ khi có người chiến thắng.
 
-8. **Phần tạo giao diện Tkinter**:
-   - Khởi tạo cửa sổ, các biến và các nút cần thiết.
-   - Sử dụng một Frame để chứa bảng chơi và đặt các nút vào bảng.
+6. **Hàm `empty_spaces()`:**
+    - Kiểm tra xem còn ô trống trên bàn cờ hay không.
+
+7. **Hàm `new_game()`:**
+    - Khởi tạo một trò chơi mới bằng cách xóa nội dung các ô trên bàn cờ và chọn người chơi ngẫu nhiên.
+
+8. **Hàm `save_winner_to_database(winner)`:**
+    - Lưu thông tin về người chiến thắng vào cơ sở dữ liệu MySQL.
+
+9. **Hàm `create_database_connection()`:**
+    - Tạo kết nối đến cơ sở dữ liệu MySQL.
+
+10. **Hàm `choose_x_color()` và `choose_o_color()`:**
+    - Cho phép người chơi chọn màu cho ký tự X và O.
+
+11. **Hàm `update_button_colors()`:**
+    - Cập nhật màu cho các nút trên bàn cờ dựa trên màu đã chọn cho X và O.
+
+12. **Hàm `update_history_menu()`:**
+    - Cập nhật menu lịch sử hiển thị người chiến thắng và thời gian.
+
+13. **Hàm `get_history_from_database()`:**
+    - Truy vấn cơ sở dữ liệu để lấy thông tin lịch sử.
+
+14. **Hàm `show_history_details(entry)`:**
+    - Hiển thị thông tin chi tiết về một mục trong lịch sử.
+
+15. **Hàm `show_about()`:**
+    - Hiển thị thông tin về ứng dụng Caro.
+
+16. **Khởi tạo giao diện người dùng Tkinter:**
+    - Tạo cửa sổ chính và thiết lập các nút, nhãn, menu cho ứng dụng Caro.
+
+17. **Vòng lặp chính của Tkinter (`window.mainloop()`):**
+    - Chạy vòng lặp chính của Tkinter để giữ cửa sổ mở và xử lý sự kiện từ người dùng.
+
+Mã nguồn này tạo ra một giao diện đơn giản cho trò chơi Caro với khả năng lưu trữ lịch sử và thay đổi màu sắc cho ký tự X và O.

@@ -139,6 +139,9 @@ def get_history_from_database():
 def show_history_details(entry):
     messagebox.showinfo("Chi tiết", f"Lịch sử: {entry}")
 
+def show_about():
+    messagebox.showinfo("About", "Caro Game\nVersion 1.0\n\n© 2023 by ThienSnake, Rin\n \nLuật chơi: Hai người chơi cầm 2 ký tự khác nhau X và O đánh trên bàn với ô vuông nhỏ gần nhau. Người chiến thắng là người sẽ tạo được hàng 3 đầu tiên.")
+
 window = Tk()
 window.title("Caro")
 
@@ -161,12 +164,15 @@ window.config(menu=menu_bar)
 # Colors menu
 colors_menu = Menu(menu_bar, tearoff=0)
 menu_bar.add_cascade(label="Colors", menu=colors_menu)
-colors_menu.add_command(label="Choose X Color", command=choose_x_color) #Chọn màu sắc 
+colors_menu.add_command(label="Choose X Color", command=choose_x_color)
 colors_menu.add_command(label="Choose O Color", command=choose_o_color)
 
 # History menu
 history_menu = Menu(menu_bar, tearoff=0)
 menu_bar.add_cascade(label="History", menu=history_menu)
+
+# About menu
+menu_bar.add_command(label="About", command=show_about)
 
 reset_button = Button(text="Restart", font=('Consolas', 20), command=new_game, bg="#4CAF50", fg="black")
 reset_button.pack(side="top", pady=5)
